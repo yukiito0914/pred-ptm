@@ -1,0 +1,10 @@
+# data
+data/
+
+# bash scripts
+train.sh
+make_csv.sh
+
+# error log
+train.o*
+makecsv.o*

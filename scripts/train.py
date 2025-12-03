@@ -17,7 +17,7 @@ def get_args():
     parser = argparse.ArgumentParser(description='Train MLP with CSV Input')
     
     # Hyperparameters
-    parser.add_argument('--batch_size', type=int, default=32, help='Batch size')
+    parser.add_argument('--batch_size', type=int, default=512, help='Batch size')
     parser.add_argument('--lr', type=float, default=0.001, help='Learning rate')
     parser.add_argument('--epochs', type=int, default=50, help='Max epochs')
     parser.add_argument('--patience', type=int, default=10, help='Early stopping patience')
