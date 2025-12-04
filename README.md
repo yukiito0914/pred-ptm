@@ -1,3 +1,5 @@
+# PTM Site Prediction
+
 ## Overview
 This project implements a hybrid deep learning model combining **Deep 1D-CNN**, **Self-Attention**, and **Residual Connections** to predict phosphorylation sites (specifically Serine) from protein sequence and structural features.
 
@@ -75,7 +77,7 @@ You need two raw inputs:
 2.  **Structure Files:** Directory containing `.cif` files (e.g., from Boltz or AlphaFold).
 
 ### 2: Preprocessing (Heavy Calculation)
-Extracts features (SASA, pLDDT, Sequence) and generates a CSV file with **Window Size 31**.
+Extracts features (SASA, pLDDT, Hydrophobicity) and generates a CSV file with **Window Size 31**.
 * **Input:** Label File + CIF files
 * **Output:** `data/train_data_w31.csv`
 
@@ -96,4 +98,5 @@ python -u scripts/train_final.py \
   --patience 10 \
   --output_dir experiments_final
 ```
+
 
