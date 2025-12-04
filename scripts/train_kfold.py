@@ -13,7 +13,8 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 # from src.MLP import PhosphoMLP
-from src.CNN import PhosphoCNN
+# from src.CNN import PhosphoCNN
+from src.CNN_attention import PhosphoCNNAttention
 from src.dataset import PhosphoCSVDataset
 from src.utils import EarlyStopping
 
@@ -110,7 +111,8 @@ def main():
         val_loader = DataLoader(val_subset, batch_size=args.batch_size, shuffle=False)
         
         # model = PhosphoMLP(input_dim=input_dim, output_dim=1).to(device)
-        model = PhosphoCNN(input_dim=input_dim, output_dim=1).to(device)
+        # model = PhosphoCNN(input_dim=input_dim, output_dim=1).to(device)
+        model = PhosphoCNNAttention(input_dim=input_dim, output_dim=1).to(device)
         optimizer = optim.Adam(model.parameters(), lr=args.lr)
         pos_weight = calculate_pos_weight(train_subset).to(device)
         criterion = nn.BCEWithLogitsLoss(pos_weight=pos_weight)
