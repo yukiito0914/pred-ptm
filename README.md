@@ -44,7 +44,7 @@ Extracts features for ALL Serine (S) residues found in the target proteins.
 * **Output:** `data/inference_data_w31.csv`
 
 ```bash
-python scripts/make_inference_csv.py
+python scripts/preprocess/inference/make_csv_inference.py
 ```
 
 ### 3: Run Prediction
@@ -82,7 +82,7 @@ Extracts features (SASA, pLDDT, Hydrophobicity) and generates a CSV file with **
 * **Output:** `data/train_data_w31.csv`
 
 ```bash
-python scripts/preprocess_window31.py
+python scripts/preprocess/training/make_csv.py
 ```
 
 ### 3: Run Training
@@ -91,12 +91,13 @@ Trains the model using the generated CSV.
 * **Output:** `experiments_final/best_model.pt`, `loss_curve.png`
 
 ```bash
-python -u scripts/train_final.py \
+python -u scripts/train.py \
   --csv_path data/train_data_w31.csv \
   --batch_size 1024 \
   --epochs 50 \
   --patience 10 \
   --output_dir experiments_final
 ```
+
 
 
