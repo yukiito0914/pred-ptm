@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader, random_split
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.MLP import PhosphoMLP
+from nn.src.MLP import PhosphoMLP
 from src.dataset import PhosphoCSVDataset  # [UPDATED] Import the new class
 from src.utils import EarlyStopping, plot_loss_curves
 

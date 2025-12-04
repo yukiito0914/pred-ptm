@@ -10,7 +10,7 @@ from tqdm import tqdm
 # ==========================================
 RESULTS_DIR = "/projectnb/cs523aw/students/yuki/results"
 INPUT_CSV = "/projectnb/cs523aw/students/yuki/nn/data/train_data.csv"
-OUTPUT_CSV = "/projectnb/cs523aw/students/yuki/nn/data/train_data_with_seq.csv"
+OUTPUT_CSV = "/projectnb/cs523aw/students/yuki/nn/data/train_data_with_seq_31.csv"
 
 # ==========================================
 # Amino Acid Encoding (Mapping to Integers)
@@ -22,7 +22,7 @@ AA_TO_INT = {
     'ASN': 12, 'PRO': 13, 'GLN': 14, 'ARG': 15, 'SER': 16, 'THR': 17,
     'VAL': 18, 'TRP': 19, 'TYR': 20
 }
-WINDOW_SIZE = 15
+WINDOW_SIZE = 31
 RADIUS = WINDOW_SIZE // 2
 
 def get_cif_path(results_dir, uniprot_id):
