@@ -1,28 +1,20 @@
 name: ptm_pred
 channels:
-  - pytorch
-  - nvidia
   - defaults
 dependencies:
   # Base Python
   - python=3.9
 
-  # PyTorch & CUDA (GPU support)
-  - pytorch
-  - pytorch-cuda=11.8 
-  - torchaudio
-  - torchvision
-
-  # Data Manipulation
+  # Common Libraries
   - pandas
   - numpy
-
-  # Visualization
   - matplotlib
-
-  # Utilities (Optional but highly recommended for ML metrics)
   - scikit-learn
   - tqdm
+  - biopython
+  - pip  
 
-  # Pip specific packages (if any)
-  - pip
+  - pip:
+    - torch --index-url https://download.pytorch.org/whl/cu118
+    - torchvision --index-url https://download.pytorch.org/whl/cu118
+    - torchaudio --index-url https://download.pytorch.org/whl/cu118

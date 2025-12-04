@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader, random_split
 # Add project root to path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.MLP import PhosphoMLP
+from nn.src.MLP import PhosphoMLP
 from src.dataset import PhosphoCSVDataset  # [UPDATED] Import the new class
 from src.utils import EarlyStopping, plot_loss_curves
 
@@ -17,7 +17,7 @@ def get_args():
     parser = argparse.ArgumentParser(description='Train MLP with CSV Input')
     
     # Hyperparameters
-    parser.add_argument('--batch_size', type=int, default=32, help='Batch size')
+    parser.add_argument('--batch_size', type=int, default=512, help='Batch size')
     parser.add_argument('--lr', type=float, default=0.001, help='Learning rate')
     parser.add_argument('--epochs', type=int, default=50, help='Max epochs')
     parser.add_argument('--patience', type=int, default=10, help='Early stopping patience')
