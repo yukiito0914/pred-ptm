@@ -11,7 +11,7 @@ from tqdm import tqdm
 # ==========================================
 LABEL_FILE = "/projectnb/cs523aw/students/yuki/Phosphorylation_human_S.txt"
 RESULTS_DIR = "/projectnb/cs523aw/students/yuki/results"
-# Save as a distinct new file
+# The script will check this file to skip existing proteins
 OUTPUT_CSV = "/projectnb/cs523aw/students/yuki/nn/data/train_data_w31.csv"
 
 # Window Size 31 (Radius 15)
@@ -94,9 +94,26 @@ def get_full_data_window31(cif_path, protein_id):
     return np.array(feat_list, dtype=np.float32), np.array(seq_list, dtype=np.int64)
 
 def main():
+    # Make sure dir exists
     os.makedirs(os.path.dirname(OUTPUT_CSV), exist_ok=True)
-    print(f"Reading labels from {LABEL_FILE}...")
     
+    # --- [NEW] Check for existing data to resume ---
+    processed_uids = set()
+    existing_df = None
+    
+    if os.path.exists(OUTPUT_CSV):
+        print(f"Found existing CSV: {OUTPUT_CSV}")
+        try:
+            existing_df = pd.read_csv(OUTPUT_CSV)
+            if 'uniprot_id' in existing_df.columns:
+                processed_uids = set(existing_df['uniprot_id'].unique())
+                print(f"--> Already processed {len(processed_uids)} proteins. Skipping them.")
+        except Exception as e:
+            print(f"Warning: Could not read existing CSV ({e}). Starting from scratch.")
+            existing_df = None
+    # -----------------------------------------------
+
+    print(f"Reading labels from {LABEL_FILE}...")
     try:
         df = pd.read_csv(LABEL_FILE, sep='\t')
         if 'Class' not in df.columns: raise ValueError()
@@ -108,10 +125,16 @@ def main():
     
     final_data = []
     skipped = 0
+    newly_processed_count = 0
     
     print("Processing proteins (Calculations for Window 31)...")
     
     for uid, group in tqdm(grouped):
+        # --- [NEW] Skip if already processed ---
+        if uid in processed_uids:
+            continue
+        # ---------------------------------------
+
         cif_path = get_cif_path(RESULTS_DIR, uid)
         
         if not os.path.exists(cif_path):
@@ -126,6 +149,7 @@ def main():
             continue
             
         seq_len = len(full_feats)
+        newly_processed_count += 1
         
         for _, row in group.iterrows():
             center_idx = int(row['location']) - 1
@@ -160,15 +184,31 @@ def main():
             sample = [uid, row['location'], label_char] + flat_feat.tolist() + window_seq.tolist()
             final_data.append(sample)
 
+    # --- [NEW] Merge and Save ---
+    if not final_data and existing_df is not None:
+        print("No new data to add.")
+        return
+
     print("Saving to CSV...")
     # Generate column names
     feat_cols = [f"feat_{i}" for i in range(WINDOW_SIZE * 3)]
     seq_cols = [f"seq_{i}" for i in range(WINDOW_SIZE)]
     columns = ['uniprot_id', 'location', 'label'] + feat_cols + seq_cols
     
-    result_df = pd.DataFrame(final_data, columns=columns)
-    result_df.to_csv(OUTPUT_CSV, index=False)
-    print(f"Done! Saved to {OUTPUT_CSV}. Skipped {skipped} proteins.")
+    new_df = pd.DataFrame(final_data, columns=columns)
+    
+    if existing_df is not None:
+        # Append new data to existing data
+        combined_df = pd.concat([existing_df, new_df], ignore_index=True)
+        combined_df.to_csv(OUTPUT_CSV, index=False)
+        print(f"Merged {len(new_df)} new rows with {len(existing_df)} existing rows.")
+    else:
+        new_df.to_csv(OUTPUT_CSV, index=False)
+        print(f"Created new file with {len(new_df)} rows.")
+        
+    print(f"Done! Saved to {OUTPUT_CSV}.")
+    print(f"Skipped {skipped} proteins (missing files).")
+    print(f"Newly processed proteins: {newly_processed_count}")
 
 if __name__ == "__main__":
     main()

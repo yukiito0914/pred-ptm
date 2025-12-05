@@ -12,9 +12,18 @@ dependencies:
   - scikit-learn
   - tqdm
   - biopython
-  - pip  
+  
+  # [NEW] Graphviz binaries (Required for torchview/plotting)
+  # Conda installs the system executables (dot command), which pip cannot do.
+  - graphviz 
+  - python-graphviz
 
+  - pip  
   - pip:
+    # PyTorch (CUDA 11.8)
     - torch --index-url https://download.pytorch.org/whl/cu118
     - torchvision --index-url https://download.pytorch.org/whl/cu118
     - torchaudio --index-url https://download.pytorch.org/whl/cu118
+    
+    # [NEW] Torchview for model visualization
+    - torchview
