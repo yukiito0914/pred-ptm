@@ -5,8 +5,7 @@ data/
 results/
 
 # bash scripts
-train.sh
-make_csv.sh
+*.sh
 
 # error log
 train.o*
@@ -14,3 +13,5 @@ makecsv.o*
 
 # temporary python scripts
 scripts/add_seq_to_csv.py
+plot_distribution.py
+evaluate_metrics.py
