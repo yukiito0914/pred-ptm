@@ -8,6 +8,10 @@ The model integrates:
 * **Sequence Features:** Amino acid embeddings processed by CNN and Attention layers to capture local motifs and global context.
 
 **Window Size:** 31 residues (Target +/- 15).
+
+<img width="431" height="658" alt="image" src="https://github.com/user-attachments/assets/75e99601-5491-4e2a-8e70-619e144ed78d" />
+
+
 ## Environment Setup
 
 ### 1. Prerequisites
@@ -98,6 +102,3 @@ python -u scripts/train.py \
   --patience 10 \
   --output_dir experiments_final
 ```
-
-
-
