@@ -9,8 +9,7 @@ The model integrates:
 
 **Window Size:** 31 residues (Target +/- 15).
 
-<img width="431" height="658" alt="image" src="https://github.com/user-attachments/assets/75e99601-5491-4e2a-8e70-619e144ed78d" />
-
+<img width="392" height="603" alt="image" src="https://github.com/user-attachments/assets/948d81ce-844b-4cb9-95cb-d7a0413a1efa" />
 
 ## Environment Setup
 
@@ -102,3 +101,4 @@ python -u scripts/train.py \
   --patience 10 \
   --output_dir experiments_final
 ```
+
